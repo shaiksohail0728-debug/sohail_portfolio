@@ -86,13 +86,13 @@
                          0 0 10px rgba(0, 0, 0, 0.2);
         }
 
-        /* --- ANIMATION STYLES (NEW) --- */
+        /* --- ANIMATION STYLES (UPDATED FOR MOBILE FIX) --- */
         /* Initial state for elements to be animated */
         .animated-element {
             opacity: 0;
-            /* Added transition for smooth fallback, though IntersectionObserver handles the trigger */
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out; 
+            visibility: hidden; /* NEW: Ensure it's hidden immediately on load */
             transform: translateY(20px);
+            /* Removed transition property to rely purely on keyframe animation */
         }
 
         /* Keyframes for the smooth fade-in-up effect */
@@ -110,6 +110,7 @@
         /* Class applied by JS when the element enters the viewport */
         .fade-in-up {
             opacity: 1;
+            visibility: visible; /* NEW: Make it visible when the animation is triggered */
             transform: translateY(0);
             animation: fadeInUp 0.7s ease-out forwards;
         }
@@ -524,7 +525,7 @@
                 });
             }
 
-            // --- INTERSECTION OBSERVER LOGIC FOR SCROLL ANIMATIONS (NEW) ---
+            // --- INTERSECTION OBSERVER LOGIC FOR SCROLL ANIMATIONS (FIXED) ---
             const animatedElements = document.querySelectorAll('.animated-element');
 
             // Set the options for the observer
