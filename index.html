@@ -80,12 +80,40 @@
             stroke: var(--primary-color);
         }
         
-        /* NEW: Custom CSS for a subtle dark shadow/edge effect on light text (simulates a black outline) */
+        /* Custom CSS for a subtle dark shadow/edge effect on light text */
         .text-stroke-dark {
-            /* Using a smooth shadow to give the text definition against the moving background */
             text-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 
                          0 0 10px rgba(0, 0, 0, 0.2);
         }
+
+        /* --- ANIMATION STYLES (NEW) --- */
+        /* Initial state for elements to be animated */
+        .animated-element {
+            opacity: 0;
+            /* Added transition for smooth fallback, though IntersectionObserver handles the trigger */
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out; 
+            transform: translateY(20px);
+        }
+
+        /* Keyframes for the smooth fade-in-up effect */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Class applied by JS when the element enters the viewport */
+        .fade-in-up {
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeInUp 0.7s ease-out forwards;
+        }
+        /* --- END ANIMATION STYLES --- */
     </style>
     <script>
         tailwind.config = {
@@ -132,10 +160,7 @@
             </div>
 
             <!-- Mobile Menu Dropdown -->
-            <!-- On mobile, this will contain the links and be shown/hidden by JS -->
-            <!-- The links themselves are styled to be block elements when inside this container on mobile -->
             <div id="mobile-menu-content" class="md:hidden hidden flex-col w-full mt-4 space-y-2 border-t border-gray-700 pt-4">
-                <!-- Links moved here for a cleaner mobile layout -->
                 <a href="#about" class="block text-gray-300 hover:text-primary transition duration-150 text-lg font-medium py-2">About</a>
                 <a href="#skills" class="block text-gray-300 hover:text-primary transition duration-150 text-lg font-medium py-2">Expertise</a>
                 <a href="#projects" class="block text-gray-300 hover:text-primary transition duration-150 text-lg font-medium py-2">Projects</a>
@@ -149,23 +174,20 @@
     <!-- 1. Hero Section -->
     <section id="hero" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 flex items-center min-h-[80vh] relative z-10">
         <div class="flex flex-col md:flex-row items-center gap-10">
-            <!-- Text Content: stacks first on mobile (flex-col) -->
+            <!-- Text Content: Stacks first on mobile (flex-col) -->
             <div class="md:w-3/5 text-center md:text-left">
-                <!-- APPLIED text-stroke-dark -->
+                <!-- Hero content is ALWAYS visible, so we don't use .animated-element here -->
                 <p class="text-lg text-primary mb-3 text-stroke-dark">Hello, I'm</p>
-                <!-- APPLIED text-stroke-dark -->
                 <h1 class="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight text-stroke-dark">
                     Shaik Sohail
                 </h1>
-                <!-- APPLIED text-stroke-dark -->
                 <h2 class="text-2xl md:text-4xl font-light text-gray-300 mt-2 mb-6 text-stroke-dark">
                     A dedicated <span class="font-semibold text-primary">Technology & Manufacturing Executive</span>
                 </h2>
-                <!-- FIX: Reverting text color from invisible text-gray-900 to visible text-gray-300 -->
                 <p class="text-gray-300 max-w-lg mx-auto md:mx-0 mb-8 text-lg font-bold">
                     I drive operational efficiency in the tyre industry through **data analysis**, process optimization, and leadership, focusing on defect control and achieving measurable results.
                 </p>
-                <!-- Buttons: uses space-x-4, will wrap gracefully if container is too small -->
+                <!-- Buttons -->
                 <div class="flex flex-col sm:flex-row justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
                     <a href="#projects" class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-full shadow-lg text-gray-900 bg-primary hover:bg-teal-300 transition duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-gray-900">
                         View Key Projects
@@ -194,65 +216,61 @@
 
         <!-- 2. About Me Section -->
         <section id="about" class="mb-24">
-            <!-- Text color changed to softer text-gray-200 for visibility -->
-            <h2 class="text-3xl font-bold section-header mb-8 text-gray-200">Professional Overview</h2>
-            <div class="bg-dark-card p-8 rounded-xl shadow-xl">
+            <!-- Animated Header -->
+            <h2 class="text-3xl font-bold section-header mb-8 text-gray-200 animated-element">Professional Overview</h2>
+            <!-- Animated Card -->
+            <div class="bg-dark-card p-8 rounded-xl shadow-xl animated-element">
                 <p class="text-gray-300 text-lg mb-4">
                     I am a **Technology Executive at Apollo Tyres** with 2 years of experience (2023-Present) driving measurable improvements in manufacturing environments. My expertise lies in managing production quality, optimizing processes, and leveraging data to achieve operational excellence.
                 </p>
+                <!-- Animated List Items -->
                 <ul class="list-disc list-inside text-gray-300 text-lg space-y-2 pl-4">
-                    <li>**Process Optimization:** Successfully achieved a cycle time reduction in the PCR CATL machine by 1.8 seconds (closing 50% of the target gap).</li>
-                    <li>**Waste & Quality Control:** Led initiatives that resulted in a significant reduction of steel scrap from 0.52% to **0.40%**.</li>
-                    <li>**Training & Compliance:** Contributed to achieving the prestigious **BSC Five Star and "SWORD OF HONOR"** recognitions and trained approximately 60 employees on quality and safety SOPs.</li>
+                    <li class="animated-element">**Process Optimization:** Successfully achieved a cycle time reduction in the PCR CATL machine by 1.8 seconds (closing 50% of the target gap).</li>
+                    <li class="animated-element">**Waste & Quality Control:** Led initiatives that resulted in a significant reduction of steel scrap from 0.52% to **0.40%**.</li>
+                    <li class="animated-element">**Training & Compliance:** Contributed to achieving the prestigious **BSC Five Star and "SWORD OF HONOR"** recognitions and trained approximately 60 employees on quality and safety SOPs.</li>
                 </ul>
             </div>
         </section>
 
         <!-- 3. Skills Section -->
         <section id="skills" class="mb-24">
-            <!-- Text color changed to softer text-gray-200 for visibility -->
-            <h2 class="text-3xl font-bold section-header mb-8 text-gray-200">Core Expertise & Skills</h2>
+            <!-- Animated Header -->
+            <h2 class="text-3xl font-bold section-header mb-8 text-gray-200 animated-element">Core Expertise & Skills</h2>
             <!-- Grid adapts from 2 columns (mobile) to 6 columns (large) -->
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
 
-                <!-- Leadership -->
-                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700">
+                <!-- Skill Cards (added animated-element to each) -->
+                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700 animated-element">
                     <i data-lucide="award" class="w-8 h-8 mx-auto mb-3 icon"></i>
                     <p class="text-lg font-medium">Leadership & Teamwork</p>
                 </div>
 
-                <!-- Lean Manufacturing -->
-                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700">
+                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700 animated-element">
                     <i data-lucide="layout-dashboard" class="w-8 h-8 mx-auto mb-3 icon"></i>
                     <p class="text-lg font-medium">Lean Manufacturing</p>
                 </div>
 
-                <!-- Data Analytics -->
-                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700">
+                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700 animated-element">
                     <i data-lucide="bar-chart-2" class="w-8 h-8 mx-auto mb-3 icon"></i>
                     <p class="text-lg font-medium">Data Analytics (Power BI)</p>
                 </div>
 
-                <!-- Process Automation -->
-                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700">
+                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700 animated-element">
                     <i data-lucide="zap" class="w-8 h-8 mx-auto mb-3 icon"></i>
                     <p class="text-lg font-medium">Process Automation</p>
                 </div>
 
-                <!-- Strategic Planning -->
-                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700">
+                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700 animated-element">
                     <i data-lucide="target" class="w-8 h-8 mx-auto mb-3 icon"></i>
                     <p class="text-lg font-medium">Strategic Planning</p>
                 </div>
                 
-                <!-- Problem Solving (General Manufacturing Skill) -->
-                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700">
+                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700 animated-element">
                     <i data-lucide="cpu" class="w-8 h-8 mx-auto mb-3 icon"></i>
                     <p class="text-lg font-medium">Problem-Solving</p>
                 </div>
 
-                <!-- Microsoft Office (NEW) -->
-                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700">
+                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700 animated-element">
                     <i data-lucide="file-text" class="w-8 h-8 mx-auto mb-3 icon"></i>
                     <p class="text-lg font-medium">Microsoft Office</p>
                 </div>
@@ -262,13 +280,13 @@
 
         <!-- 4. Projects Section -->
         <section id="projects" class="mb-24">
-            <!-- Text color changed to softer text-gray-200 for visibility -->
-            <h2 class="text-3xl font-bold section-header mb-8 text-gray-200">Key Analytical & Process Improvement Projects</h2>
+            <!-- Animated Header -->
+            <h2 class="text-3xl font-bold section-header mb-8 text-gray-200 animated-element">Key Analytical & Process Improvement Projects</h2>
             <!-- Grid uses 1 column on mobile, 2 on medium, and 3 on large screens -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                <!-- Project Card 1: Production Efficiency Improvement (TEEPc) -->
-                <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40">
+                <!-- Project Card 1 -->
+                <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40 animated-element">
                     <div class="h-48 bg-gray-700 flex items-center justify-center text-gray-300 font-bold">
                         Project TEEPC Improvement 
                     </div>
@@ -292,8 +310,8 @@
                     </div>
                 </div>
 
-                <!-- Project Card 2: Automated Departmental Performance Monitoring System -->
-                <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40">
+                <!-- Project Card 2 -->
+                <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40 animated-element" style="animation-delay: 0.1s;">
                     <div class="h-48 bg-gray-700 flex items-center justify-center text-gray-300 font-bold">
                          Automated Monitoring BI Platform 
                     </div>
@@ -318,8 +336,8 @@
                     </div>
                 </div>
 
-                <!-- Project Card 3: Manufacturing Waste Reduction and Process Control -->
-                <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40">
+                <!-- Project Card 3 -->
+                <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40 animated-element" style="animation-delay: 0.2s;">
                     <div class="h-48 bg-gray-700 flex items-center justify-center text-gray-300 font-bold">
                          Waste Reduction Project 
                     </div>
@@ -344,8 +362,8 @@
                     </div>
                 </div>
 
-                <!-- Project Card 4: Production Cycle Time Optimisation via Analytical Tooling (ADDED) -->
-                <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40">
+                <!-- Project Card 4 -->
+                <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40 animated-element">
                     <div class="h-48 bg-gray-700 flex items-center justify-center text-gray-300 font-bold">
                          Cycle Time Optimisation Analytical Tool
                     </div>
@@ -370,8 +388,8 @@
                     </div>
                 </div>
 
-                <!-- Project Card 5: AI-Powered Portfolio Generation and Deployment System -->
-                <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40">
+                <!-- Project Card 5 -->
+                <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40 animated-element" style="animation-delay: 0.1s;">
                     <div class="h-48 bg-gray-700 flex items-center justify-center text-gray-300 font-bold">
                          AI-Powered CI/CD System
                     </div>
@@ -402,10 +420,11 @@
 
         <!-- 5. Education Section (NEW) -->
         <section id="education" class="mb-24">
-            <h2 class="text-3xl font-bold section-header mb-8 text-gray-200">Education</h2>
+            <!-- Animated Header -->
+            <h2 class="text-3xl font-bold section-header mb-8 text-gray-200 animated-element">Education</h2>
             <div class="space-y-8">
                 <!-- Degree 1: B.Tech -->
-                <div class="bg-dark-card p-6 rounded-xl shadow-lg border border-gray-700 hover:shadow-primary/40 transition duration-300">
+                <div class="bg-dark-card p-6 rounded-xl shadow-lg border border-gray-700 hover:shadow-primary/40 transition duration-300 animated-element">
                     <div class="flex justify-between items-start mb-2">
                         <h3 class="text-xl font-bold text-primary">Bachelor of Technology (B.Tech) in Mechanical Engineering</h3>
                         <span class="text-sm font-semibold text-gray-400 bg-gray-700 px-3 py-1 rounded-full shrink-0">2019 - 2023</span>
@@ -415,7 +434,7 @@
                 </div>
                 
                 <!-- Degree 2: Intermediate/High School (Placeholder structure) -->
-                <div class="bg-dark-card p-6 rounded-xl shadow-lg border border-gray-700 hover:shadow-primary/40 transition duration-300">
+                <div class="bg-dark-card p-6 rounded-xl shadow-lg border border-gray-700 hover:shadow-primary/40 transition duration-300 animated-element" style="animation-delay: 0.1s;">
                     <div class="flex justify-between items-start mb-2">
                         <h3 class="text-xl font-bold text-primary">Intermediate (MPC)</h3>
                         <span class="text-sm font-semibold text-gray-400 bg-gray-700 px-3 py-1 rounded-full shrink-0">2017 - 2019</span>
@@ -429,9 +448,10 @@
 
         <!-- 6. Contact Section (Original 5) -->
         <section id="contact" class="mb-16 text-center">
-            <!-- Text color changed to softer text-gray-200 for visibility -->
-            <h2 class="text-3xl font-bold section-header mx-auto mb-8 text-gray-200">Get In Touch</h2>
-            <div class="max-w-xl mx-auto bg-dark-card p-10 rounded-xl shadow-2xl border border-gray-700">
+            <!-- Animated Header -->
+            <h2 class="text-3xl font-bold section-header mx-auto mb-8 text-gray-200 animated-element">Get In Touch</h2>
+            <!-- Animated Card -->
+            <div class="max-w-xl mx-auto bg-dark-card p-10 rounded-xl shadow-2xl border border-gray-700 animated-element">
                 <p class="text-xl text-gray-300 mb-6">
                     I am actively seeking challenging roles in manufacturing and technology. Let's connect!
                 </p>
@@ -472,7 +492,7 @@
         lucide.createIcons();
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // --- NEW JAVASCRIPT FOR MOBILE MENU TOGGLE ---
+        // --- MOBILE MENU TOGGLE LOGIC ---
         document.addEventListener('DOMContentLoaded', () => {
             const menuButton = document.getElementById('menu-button');
             const mobileMenuContent = document.getElementById('mobile-menu-content');
@@ -481,7 +501,6 @@
             if (menuButton && mobileMenuContent && menuIcon) {
                 // Event listener to toggle the mobile menu visibility
                 menuButton.addEventListener('click', () => {
-                    // Toggle the 'hidden' class to show/hide the menu
                     const isHidden = mobileMenuContent.classList.toggle('hidden');
                     
                     // Toggle the icon between 'menu' and 'x' (close)
@@ -490,14 +509,12 @@
                     } else {
                         menuIcon.setAttribute('data-lucide', 'x');
                     }
-                    // Re-run lucide.createIcons() to update the SVG icon
                     lucide.createIcons();
                 });
 
                 // Close menu after clicking a link (improves mobile UX)
                 mobileMenuContent.querySelectorAll('a').forEach(link => {
                     link.addEventListener('click', () => {
-                        // Only close if the menu is currently open (not hidden)
                         if (!mobileMenuContent.classList.contains('hidden')) {
                             mobileMenuContent.classList.add('hidden');
                             menuIcon.setAttribute('data-lucide', 'menu');
@@ -506,8 +523,35 @@
                     });
                 });
             }
+
+            // --- INTERSECTION OBSERVER LOGIC FOR SCROLL ANIMATIONS (NEW) ---
+            const animatedElements = document.querySelectorAll('.animated-element');
+
+            // Set the options for the observer
+            const observerOptions = {
+                root: null, // viewport
+                rootMargin: '0px',
+                threshold: 0.1 // Trigger when 10% of the item is visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Element is in view, apply the animation class
+                        entry.target.classList.add('fade-in-up');
+                        
+                        // Stop observing once the animation is triggered
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Start observing all animated elements
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+            // --- END INTERSECTION OBSERVER LOGIC ---
         });
-        // --- END NEW JAVASCRIPT ---
     </script>
 
 </body>
