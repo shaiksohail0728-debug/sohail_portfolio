@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaik Sohail | Technology Executive Portfolio</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons for aesthetic appeal -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+        /* Define a dark background and text colors */
+        :root {
+            --primary-color: #2dd4bf; /* Tailwind teal-400 */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            /* FIX: Ensure body has a solid dark color to prevent white flash on scroll */
+            background-color: #0f172a; 
+            color: #f3f4f6; /* Light Grey Text */
+            scroll-behavior: smooth;
+            margin: 0;
+            overflow-x: hidden; /* Prevent horizontal body scroll bars */
+            min-height: 100vh;
+        }
+
+        /* --- MOTION BACKGROUND STYLES --- */
+        .motion-background {
+            /* FIX: Set height to 100% so the animated layer covers the entire content length, not just the viewport height */
+            height: 100%;
+            /* Define a huge background size to allow for large, smooth movements */
+            background-size: 400% 400%; 
+            /* Define the colors for the gradient, tailored to the portfolio's dark/teal theme */
+            background-image: linear-gradient(
+                135deg, 
+                #0f172a, /* Deep Slate */
+                #1e3a8a, /* Indigo */
+                #2dd4bf, /* Primary Teal */
+                #6d28d9  /* Deep Violet */
+            );
+            /* Ensure it covers the initial viewport */
+            min-height: 100vh;
+            width: 100vw;
+            
+            /* Apply a slower animation (20s) for a professional feel */
+            animation: gradient-motion 20s ease infinite;
+        }
+
+        /* Define the keyframes for the animation */
+        @keyframes gradient-motion {
+            0% {
+                background-position: 0% 50%; 
+            }
+            50% {
+                background-position: 100% 50%; 
+            }
+            100% {
+                background-position: 0% 50%; 
+            }
+        }
+        /* --- END MOTION BACKGROUND STYLES --- */
+
+        /* Custom selection color for a better UX */
+        ::selection {
+            background: var(--primary-color);
+            color: #1f2937;
+        }
+        .section-header {
+            /* Border color changed to dark gray for better subtlety */
+            border-bottom: 2px solid #4b5563; 
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        /* Custom styles for Lucide icons */
+        .icon {
+            stroke: var(--primary-color);
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#2dd4bf', // Teal-400
+                        'dark-card': '#1f2937', // Slightly lighter dark background for cards
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="antialiased">
+
+    <!-- MOTION BACKGROUND LAYER -->
+    <!-- Positioned absolutely to cover the viewport, z-0 puts it behind all content -->
+    <div class="motion-background absolute inset-0 z-0"></div>
+
+    <!-- Navigation Header (Mobile Optimized) -->
+    <!-- Header needs a higher z-index (z-50) and backdrop blur to sit clearly over the moving background -->
+    <header class="sticky top-0 z-50 bg-gray-900/90 backdrop-blur-sm shadow-lg">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo: UPDATED TEXT -->
+                <a href="#hero" class="text-xl font-bold text-primary shrink-0">SHAIK.SOHAIL</a>
+                
+                <!-- Links: uses smaller spacing and font size on mobile (text-sm space-x-3) -->
+                <div class="flex space-x-3 sm:space-x-6">
+                    <a href="#about" class="text-gray-300 hover:text-primary transition duration-150 text-sm sm:text-base">About</a>
+                    <a href="#skills" class="text-gray-300 hover:text-primary transition duration-150 text-sm sm:text-base">Expertise</a>
+                    <a href="#projects" class="text-gray-300 hover:text-primary transition duration-150 text-sm sm:text-base">Projects</a>
+                    <a href="#contact" class="text-gray-300 hover:text-primary transition duration-150 text-sm sm:text-base">Contact</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 1. Hero Section -->
+    <section id="hero" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 flex items-center min-h-[80vh] relative z-10">
+        <div class="flex flex-col md:flex-row items-center gap-10">
+            <!-- Text Content: stacks first on mobile (flex-col) -->
+            <div class="md:w-3/5 text-center md:text-left">
+                <p class="text-lg text-primary mb-3">Hello, I'm</p>
+                <h1 class="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight">
+                    Shaik Sohail
+                </h1>
+                <h2 class="text-2xl md:text-4xl font-light text-gray-300 mt-2 mb-6">
+                    A dedicated <span class="font-semibold text-primary">Technology & Manufacturing Executive</span>
+                </h2>
+                <p class="text-gray-400 max-w-lg mx-auto md:mx-0 mb-8 text-lg">
+                    I drive operational efficiency in the tyre industry through **data analysis**, process optimization, and leadership, focusing on defect control and achieving measurable results.
+                </p>
+                <!-- Buttons: uses space-x-4, will wrap gracefully if container is too small -->
+                <div class="flex flex-col sm:flex-row justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#projects" class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-full shadow-lg text-gray-900 bg-primary hover:bg-teal-300 transition duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-gray-900">
+                        View Key Projects
+                    </a>
+                    <a href="#contact" class="inline-flex items-center justify-center px-8 py-3 border-2 border-primary text-base font-medium rounded-full text-primary hover:bg-primary hover:text-gray-900 transition duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-gray-900">
+                        Connect on LinkedIn
+                    </a>
+                </div>
+            </div>
+            <!-- Placeholder Image/Illustration: NOW USES THE UPLOADED IMAGE -->
+            <div class="md:w-2/5 flex justify-center order-first md:order-last">
+                <!-- Image Container with styling for a circular profile picture -->
+                <div class="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden shadow-2xl shadow-primary/20 ring-4 ring-primary ring-offset-4 ring-offset-slate-900">
+                    <!-- 
+                        CRITICAL: The image path should be relative to where your portfolio.html file is.
+                        If the image is in the same folder as index.html, the path is just the filename.
+                        If the image file name is different in your repo, change 'sohail-portfolio.JPG' below.
+                    -->
+                    <img 
+                        src="sohail-portfolio.JPG" 
+                        alt="Shaik Sohail - Technology Executive Profile Picture" 
+                        class="object-cover w-full h-full"
+                        onerror="this.onerror=null; this.src='https://placehold.co/320x320/1f2937/d1d5db?text=Image+Missing'; this.classList.add('p-10', 'object-contain', 'bg-gray-700')"
+                    >
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <!-- Added relative z-10 here for safe stacking context over the z-0 background -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+
+        <!-- 2. About Me Section -->
+        <section id="about" class="mb-24">
+            <!-- Text color changed to softer text-gray-200 for visibility -->
+            <h2 class="text-3xl font-bold section-header mb-8 text-gray-200">Professional Overview</h2>
+            <div class="bg-dark-card p-8 rounded-xl shadow-xl">
+                <p class="text-gray-300 text-lg mb-4">
+                    I am a **Technology Executive at Apollo Tyres** with 2 years of experience (2023-Present) driving measurable improvements in manufacturing environments. My expertise lies in managing production quality, optimizing processes, and leveraging data to achieve operational excellence.
+                </p>
+                <ul class="list-disc list-inside text-gray-300 text-lg space-y-2 pl-4">
+                    <li>**Process Optimization:** Successfully achieved a cycle time reduction in the PCR CATL machine by 1.8 seconds (closing 50% of the target gap).</li>
+                    <li>**Waste & Quality Control:** Led initiatives that resulted in a significant reduction of steel scrap from 0.52% to **0.40%**.</li>
+                    <li>**Training & Compliance:** Contributed to achieving the prestigious **BSC Five Star and "SWORD OF HONOR"** recognitions and trained approximately 60 employees on quality and safety SOPs.</li>
+                    <li>**Background:** Hold a B.Tech in Mechanical Engineering (72.3%) from PBR Visvodhaya Institute of Technology and Science (2023).</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3. Skills Section -->
+        <section id="skills" class="mb-24">
+            <!-- Text color changed to softer text-gray-200 for visibility -->
+            <h2 class="text-3xl font-bold section-header mb-8 text-gray-200">Core Expertise & Skills</h2>
+            <!-- Grid adapts from 2 columns (mobile) to 6 columns (large) -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+
+                <!-- Leadership -->
+                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700">
+                    <i data-lucide="award" class="w-8 h-8 mx-auto mb-3 icon"></i>
+                    <p class="text-lg font-medium">Leadership & Teamwork</p>
+                </div>
+
+                <!-- Lean Manufacturing -->
+                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700">
+                    <i data-lucide="layout-dashboard" class="w-8 h-8 mx-auto mb-3 icon"></i>
+                    <p class="text-lg font-medium">Lean Manufacturing</p>
+                </div>
+
+                <!-- Data Analytics -->
+                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700">
+                    <i data-lucide="bar-chart-2" class="w-8 h-8 mx-auto mb-3 icon"></i>
+                    <p class="text-lg font-medium">Data Analytics (Power BI)</p>
+                </div>
+
+                <!-- Process Automation -->
+                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700">
+                    <i data-lucide="zap" class="w-8 h-8 mx-auto mb-3 icon"></i>
+                    <p class="text-lg font-medium">Process Automation</p>
+                </div>
+
+                <!-- Strategic Planning -->
+                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700">
+                    <i data-lucide="target" class="w-8 h-8 mx-auto mb-3 icon"></i>
+                    <p class="text-lg font-medium">Strategic Planning</p>
+                </div>
+                
+                <!-- Problem Solving (General Manufacturing Skill) -->
+                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700">
+                    <i data-lucide="cpu" class="w-8 h-8 mx-auto mb-3 icon"></i>
+                    <p class="text-lg font-medium">Problem-Solving</p>
+                </div>
+
+                <!-- Microsoft Office (NEW) -->
+                <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700">
+                    <i data-lucide="file-text" class="w-8 h-8 mx-auto mb-3 icon"></i>
+                    <p class="text-lg font-medium">Microsoft Office</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4. Projects Section -->
+        <section id="projects" class="mb-24">
+            <!-- Text color changed to softer text-gray-200 for visibility -->
+            <h2 class="text-3xl font-bold section-header mb-8 text-gray-200">Key Analytical & Process Improvement Projects</h2>
+            <!-- Grid uses 1 column on mobile, 2 on medium, and 3 on large screens -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Project Card 1: Production Efficiency Improvement (TEEPc) -->
+                <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40">
+                    <div class="h-48 bg-gray-700 flex items-center justify-center text-gray-300 font-bold">
+                        Project TEEPC Improvement 
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-primary">Production Efficiency Improvement (TEEPc)</h3>
+                        <p class="text-gray-400 mb-4 text-sm">Spearheaded an optimization initiative to boost equipment utilization and output. Utilized QCC tools for in-depth process analysis and standardization, successfully increasing Total Effective Equipment Performance (TEEPc) from 68% to **72%**.</p>
+                        <div class="flex flex-wrap gap-2 text-xs font-semibold mb-4">
+                            <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">QCC Methodologies</span>
+                            <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Process Mapping</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <a href="#" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                                <span>Demo (N/A)</span>
+                            </a>
+                            <a href="#" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
+                                <i data-lucide="github" class="w-4 h-4"></i>
+                                <span>Code (N/A)</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 2: Automated Departmental Performance Monitoring System -->
+                <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40">
+                    <div class="h-48 bg-gray-700 flex items-center justify-center text-gray-300 font-bold">
+                         Automated Monitoring BI Platform 
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-primary">Automated Performance Monitoring System</h3>
+                        <p class="text-gray-400 mb-4 text-sm">Developed and deployed a standalone Business Intelligence platform to track departmental performance. Created **22 comprehensive Power BI dashboards** with an automated data pipeline, providing leadership with real-time, data-driven insights.</p>
+                        <div class="flex flex-wrap gap-2 text-xs font-semibold mb-4">
+                            <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Power BI</span>
+                            <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Data Automation/Modeling</span>
+                            <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Microsoft Forms/Excel</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <a href="#" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                                <span>Demo (N/A)</span>
+                            </a>
+                            <a href="#" target="_blank" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
+                                <i data-lucide="github" class="w-4 h-4"></i>
+                                <span>Code (N/A)</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 3: Manufacturing Waste Reduction and Process Control -->
+                <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40">
+                    <div class="h-48 bg-gray-700 flex items-center justify-center text-gray-300 font-bold">
+                         Waste Reduction Project 
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-primary">Manufacturing Waste Reduction & Control</h3>
+                        <p class="text-gray-400 mb-4 text-sm">Led a quality improvement project focused on minimizing steel scrap generation. Employed QCC methodologies for root-cause analysis and implemented corrective changes, establishing a daily Power BI monitoring routine to ensure a scrap reduction from 0.52% to **0.40%**.</p>
+                        <div class="flex flex-wrap gap-2 text-xs font-semibold mb-4">
+                            <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">QCC Methodologies</span>
+                            <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Root Cause Analysis</span>
+                            <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Power BI Monitoring</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <a href="#" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                                <span>Demo (N/A)</span>
+                            </a>
+                            <a href="#" target="_blank" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
+                                <i data-lucide="github" class="w-4 h-4"></i>
+                                <span>Code (N/A)</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 4: Production Cycle Time Optimisation via Analytical Tooling (ADDED) -->
+                <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40">
+                    <div class="h-48 bg-gray-700 flex items-center justify-center text-gray-300 font-bold">
+                         Cycle Time Optimisation Analytical Tool
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-primary">Production Cycle Time Optimisation</h3>
+                        <p class="text-gray-400 mb-4 text-sm">Designed and launched a "Global Analytical Tool" to enable daily, size-wise data analysis. Optimized machine and recipe parameters based on analytical insights, successfully reducing the machine's cycle time by **1.5 seconds**, closing 50% of the targeted 3-second improvement gap.</p>
+                        <div class="flex flex-wrap gap-2 text-xs font-semibold mb-4">
+                            <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Data Analysis/Visualisation</span>
+                            <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Statistical Process Control</span>
+                            <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Machine Parameter Optimisation</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <a href="#" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                                <span>Demo (N/A)</span>
+                            </a>
+                            <a href="#" target="_blank" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
+                                <i data-lucide="github" class="w-4 h-4"></i>
+                                <span>Code (N/A)</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 5: AI-Powered Portfolio Generation and Deployment System -->
+                <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40">
+                    <div class="h-48 bg-gray-700 flex items-center justify-center text-gray-300 font-bold">
+                         AI-Powered CI/CD System
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-primary">AI-Powered Portfolio Generation & Deployment</h3>
+                        <p class="text-gray-400 mb-4 text-sm">Engineered an AI-powered portfolio generation and deployment system that demonstrates advanced workflow automation. The core coding structure and functional scripts were developed using Gemini and ChatGPT, showcasing proficiency in leveraging generative AI for rapid, efficient coding. A robust CI/CD pipeline was established using GitHub Actions to automate the build and deployment process upon every content update. This project highlights a strong capability in AI tool utilization, prompt engineering, and DevOps, resulting in a highly scalable and modern web presence. The complete system minimizes manual upkeep and ensures the portfolio is continuously updated with the latest work using minimal traditional code writing.</p>
+                        <div class="flex flex-wrap gap-2 text-xs font-semibold mb-4">
+                            <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">AI Tool Utilization</span>
+                            <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Prompt Engineering</span>
+                            <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">CI/CD (GitHub Actions)</span>
+                            <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">DevOps</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <a href="#" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                                <span>Demo (N/A)</span>
+                            </a>
+                            <a href="#" target="_blank" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
+                                <i data-lucide="github" class="w-4 h-4"></i>
+                                <span>Code (N/A)</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 5. Contact Section -->
+        <section id="contact" class="mb-16 text-center">
+            <!-- Text color changed to softer text-gray-200 for visibility -->
+            <h2 class="text-3xl font-bold section-header mx-auto mb-8 text-gray-200">Get In Touch</h2>
+            <div class="max-w-xl mx-auto bg-dark-card p-10 rounded-xl shadow-2xl border border-gray-700">
+                <p class="text-xl text-gray-300 mb-6">
+                    I am actively seeking challenging roles in manufacturing and technology. Let's connect!
+                </p>
+
+                <div class="space-y-4">
+                    <a href="mailto:shaik.sohail0728@gamil.com" class="flex items-center justify-center text-lg text-primary hover:text-teal-300 font-medium transition duration-150">
+                        <i data-lucide="mail" class="w-6 h-6 mr-3"></i>
+                        shaik.sohail0728@gamil.com
+                    </a>
+                    <a href="https://www.linkedin.com/in/shaik-sohail0728?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="flex items-center justify-center text-lg text-primary hover:text-teal-300 font-medium transition duration-150">
+                        <i data-lucide="linkedin" class="w-6 h-6 mr-3"></i>
+                        LinkedIn Profile
+                    </a>
+                    <a href="https://github.com/shaiksohail0728-debug" target="_blank" class="flex items-center justify-center text-lg text-primary hover:text-teal-300 font-medium transition duration-150">
+                        <i data-lucide="github" class="w-6 h-6 mr-3"></i>
+                        GitHub Profile
+                    </a>
+                    <a href="https://www.instagram.com/sk_sohail.28?utm_source=qr&igsh=djFmYXIxajg1cGlh" target="_blank" class="flex items-center justify-center text-lg text-primary hover:text-teal-300 font-medium transition duration-150">
+                        <i data-lucide="instagram" class="w-6 h-6 mr-3"></i>
+                        Instagram
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800 py-6 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400">
+            <p>&copy; <span id="currentYear"></span> Shaik Sohail. All rights reserved. | Built with Tailwind CSS.</p>
+        </div>
+    </footer>
+
+    <!-- Initialize Lucide Icons and Year -->
+    <script>
+        // Replace all <i> tags with corresponding Lucide SVG icons
+        lucide.createIcons();
+
+        // Set the current year in the footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+
+</body>
+</html>
