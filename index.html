@@ -86,13 +86,14 @@
                          0 0 10px rgba(0, 0, 0, 0.2);
         }
 
-        /* --- ANIMATION STYLES (UPDATED FOR MOBILE FIX) --- */
-        /* Initial state for elements to be animated */
+        /* --- ANIMATION STYLES (UPDATED FOR REPLAYABILITY) --- */
+        /* Initial state for elements to be animated (Start Position) */
         .animated-element {
             opacity: 0;
-            visibility: hidden; /* NEW: Ensure it's hidden immediately on load */
+            visibility: hidden; 
             transform: translateY(20px);
-            /* Removed transition property to rely purely on keyframe animation */
+            /* Add a transition for a smooth reset when the class is removed on scroll-out */
+            transition: opacity 0.5s, transform 0.5s, visibility 0.5s;
         }
 
         /* Keyframes for the smooth fade-in-up effect */
@@ -107,11 +108,10 @@
             }
         }
 
-        /* Class applied by JS when the element enters the viewport */
+        /* Class applied by JS when the element enters the viewport (End Position) */
+        /* The 'forwards' ensures it locks into the final position defined by the keyframe */
         .fade-in-up {
-            opacity: 1;
-            visibility: visible; /* NEW: Make it visible when the animation is triggered */
-            transform: translateY(0);
+            visibility: visible; 
             animation: fadeInUp 0.7s ease-out forwards;
         }
         /* --- END ANIMATION STYLES --- */
@@ -525,12 +525,12 @@
                 });
             }
 
-            // --- INTERSECTION OBSERVER LOGIC FOR SCROLL ANIMATIONS (FIXED) ---
+            // --- INTERSECTION OBSERVER LOGIC FOR SCROLL ANIMATIONS (REPLAYABLE) ---
             const animatedElements = document.querySelectorAll('.animated-element');
 
             // Set the options for the observer
             const observerOptions = {
-                root: null, // viewport
+                root: null, // relative to the viewport
                 rootMargin: '0px',
                 threshold: 0.1 // Trigger when 10% of the item is visible
             };
@@ -538,11 +538,12 @@
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // Element is in view, apply the animation class
+                        // Element is visible, apply the animation class to trigger the effect
                         entry.target.classList.add('fade-in-up');
-                        
-                        // Stop observing once the animation is triggered
-                        observer.unobserve(entry.target);
+                    } else {
+                        // Element is leaving the viewport
+                        // Remove the class, resetting it to the base (hidden/offset) state
+                        entry.target.classList.remove('fade-in-up');
                     }
                 });
             }, observerOptions);
