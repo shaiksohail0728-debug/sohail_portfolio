@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shaik Sohail | Technology Executive Portfolio</title>
+    
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <!-- Load Lucide Icons for aesthetic appeal -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
         /* Define a dark background and text colors */
         :root {
@@ -77,6 +79,13 @@
         .icon {
             stroke: var(--primary-color);
         }
+        
+        /* NEW: Custom CSS for a subtle dark shadow/edge effect on light text (simulates a black outline) */
+        .text-stroke-dark {
+            /* Using a smooth shadow to give the text definition against the moving background */
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 
+                         0 0 10px rgba(0, 0, 0, 0.2);
+        }
     </style>
     <script>
         tailwind.config = {
@@ -94,25 +103,46 @@
 <body class="antialiased">
 
     <!-- MOTION BACKGROUND LAYER -->
-    <!-- Positioned absolutely to cover the viewport, z-0 puts it behind all content -->
     <div class="motion-background absolute inset-0 z-0"></div>
 
     <!-- Navigation Header (Mobile Optimized) -->
-    <!-- Header needs a higher z-index (z-50) and backdrop blur to sit clearly over the moving background -->
     <header class="sticky top-0 z-50 bg-gray-900/90 backdrop-blur-sm shadow-lg">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            
+            <!-- Logo and Hamburger Row -->
             <div class="flex justify-between items-center">
-                <!-- Logo: UPDATED TEXT -->
+                <!-- Logo: -->
                 <a href="#hero" class="text-xl font-bold text-primary shrink-0">SHAIK.SOHAIL</a>
                 
-                <!-- Links: uses smaller spacing and font size on mobile (text-sm space-x-3) -->
-                <div class="flex space-x-3 sm:space-x-6">
-                    <a href="#about" class="text-gray-300 hover:text-primary transition duration-150 text-sm sm:text-base">About</a>
-                    <a href="#skills" class="text-gray-300 hover:text-primary transition duration-150 text-sm sm:text-base">Expertise</a>
-                    <a href="#projects" class="text-gray-300 hover:text-primary transition duration-150 text-sm sm:text-base">Projects</a>
-                    <a href="#contact" class="text-gray-300 hover:text-primary transition duration-150 text-sm sm:text-base">Contact</a>
+                <!-- Mobile Menu Button (Hamburger) - visible only below 'md' breakpoint -->
+                <button id="menu-button" class="md:hidden p-2 rounded-lg text-primary hover:bg-gray-700 transition duration-150">
+                    <!-- Icon placeholder, toggled by JS -->
+                    <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
+                </button>
+                
+                <!-- Desktop Links (Always visible and horizontal on 'md' screens and up) -->
+                <!-- The 'hidden' class on mobile is overridden by JS when the menu is open -->
+                <div class="hidden md:flex md:space-x-6 md:space-x-3" id="nav-links">
+                    <a href="#about" class="text-gray-300 hover:text-primary transition duration-150 text-base py-1 md:py-0">About</a>
+                    <a href="#skills" class="text-gray-300 hover:text-primary transition duration-150 text-base py-1 md:py-0">Expertise</a>
+                    <a href="#projects" class="text-gray-300 hover:text-primary transition duration-150 text-base py-1 md:py-0">Projects</a>
+                    <a href="#education" class="text-gray-300 hover:text-primary transition duration-150 text-base py-1 md:py-0">Education</a>
+                    <a href="#contact" class="text-gray-300 hover:text-primary transition duration-150 text-base py-1 md:py-0">Contact</a>
                 </div>
             </div>
+
+            <!-- Mobile Menu Dropdown -->
+            <!-- On mobile, this will contain the links and be shown/hidden by JS -->
+            <!-- The links themselves are styled to be block elements when inside this container on mobile -->
+            <div id="mobile-menu-content" class="md:hidden hidden flex-col w-full mt-4 space-y-2 border-t border-gray-700 pt-4">
+                <!-- Links moved here for a cleaner mobile layout -->
+                <a href="#about" class="block text-gray-300 hover:text-primary transition duration-150 text-lg font-medium py-2">About</a>
+                <a href="#skills" class="block text-gray-300 hover:text-primary transition duration-150 text-lg font-medium py-2">Expertise</a>
+                <a href="#projects" class="block text-gray-300 hover:text-primary transition duration-150 text-lg font-medium py-2">Projects</a>
+                <a href="#education" class="block text-gray-300 hover:text-primary transition duration-150 text-lg font-medium py-2">Education</a>
+                <a href="#contact" class="block text-gray-300 hover:text-primary transition duration-150 text-lg font-medium py-2">Contact</a>
+            </div>
+            
         </nav>
     </header>
 
@@ -121,14 +151,18 @@
         <div class="flex flex-col md:flex-row items-center gap-10">
             <!-- Text Content: stacks first on mobile (flex-col) -->
             <div class="md:w-3/5 text-center md:text-left">
-                <p class="text-lg text-primary mb-3">Hello, I'm</p>
-                <h1 class="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight">
+                <!-- APPLIED text-stroke-dark -->
+                <p class="text-lg text-primary mb-3 text-stroke-dark">Hello, I'm</p>
+                <!-- APPLIED text-stroke-dark -->
+                <h1 class="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight text-stroke-dark">
                     Shaik Sohail
                 </h1>
-                <h2 class="text-2xl md:text-4xl font-light text-gray-300 mt-2 mb-6">
+                <!-- APPLIED text-stroke-dark -->
+                <h2 class="text-2xl md:text-4xl font-light text-gray-300 mt-2 mb-6 text-stroke-dark">
                     A dedicated <span class="font-semibold text-primary">Technology & Manufacturing Executive</span>
                 </h2>
-                <p class="text-gray-400 max-w-lg mx-auto md:mx-0 mb-8 text-lg">
+                <!-- FIX: Reverting text color from invisible text-gray-900 to visible text-gray-300 -->
+                <p class="text-gray-300 max-w-lg mx-auto md:mx-0 mb-8 text-lg font-bold">
                     I drive operational efficiency in the tyre industry through **data analysis**, process optimization, and leadership, focusing on defect control and achieving measurable results.
                 </p>
                 <!-- Buttons: uses space-x-4, will wrap gracefully if container is too small -->
@@ -141,15 +175,9 @@
                     </a>
                 </div>
             </div>
-            <!-- Placeholder Image/Illustration: NOW USES THE UPLOADED IMAGE -->
+            <!-- Profile Picture -->
             <div class="md:w-2/5 flex justify-center order-first md:order-last">
-                <!-- Image Container with styling for a circular profile picture -->
                 <div class="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden shadow-2xl shadow-primary/20 ring-4 ring-primary ring-offset-4 ring-offset-slate-900">
-                    <!-- 
-                        CRITICAL: The image path should be relative to where your portfolio.html file is.
-                        If the image is in the same folder as index.html, the path is just the filename.
-                        If the image file name is different in your repo, change 'sohail-portfolio.JPG' below.
-                    -->
                     <img 
                         src="sohail-portfolio.JPG" 
                         alt="Shaik Sohail - Technology Executive Profile Picture" 
@@ -162,7 +190,6 @@
     </section>
 
     <!-- Main Content Area -->
-    <!-- Added relative z-10 here for safe stacking context over the z-0 background -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
 
         <!-- 2. About Me Section -->
@@ -177,7 +204,6 @@
                     <li>**Process Optimization:** Successfully achieved a cycle time reduction in the PCR CATL machine by 1.8 seconds (closing 50% of the target gap).</li>
                     <li>**Waste & Quality Control:** Led initiatives that resulted in a significant reduction of steel scrap from 0.52% to **0.40%**.</li>
                     <li>**Training & Compliance:** Contributed to achieving the prestigious **BSC Five Star and "SWORD OF HONOR"** recognitions and trained approximately 60 employees on quality and safety SOPs.</li>
-                    <li>**Background:** Hold a B.Tech in Mechanical Engineering (72.3%) from PBR Visvodhaya Institute of Technology and Science (2023).</li>
                 </ul>
             </div>
         </section>
@@ -374,7 +400,34 @@
             </div>
         </section>
 
-        <!-- 5. Contact Section -->
+        <!-- 5. Education Section (NEW) -->
+        <section id="education" class="mb-24">
+            <h2 class="text-3xl font-bold section-header mb-8 text-gray-200">Education</h2>
+            <div class="space-y-8">
+                <!-- Degree 1: B.Tech -->
+                <div class="bg-dark-card p-6 rounded-xl shadow-lg border border-gray-700 hover:shadow-primary/40 transition duration-300">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-primary">Bachelor of Technology (B.Tech) in Mechanical Engineering</h3>
+                        <span class="text-sm font-semibold text-gray-400 bg-gray-700 px-3 py-1 rounded-full shrink-0">2019 - 2023</span>
+                    </div>
+                    <p class="text-gray-300 mb-1">PBR Visvodhaya Institute of Technology and Science</p>
+                    <p class="text-sm text-gray-400">Achieved an aggregate of **72.3%**.</p>
+                </div>
+                
+                <!-- Degree 2: Intermediate/High School (Placeholder structure) -->
+                <div class="bg-dark-card p-6 rounded-xl shadow-lg border border-gray-700 hover:shadow-primary/40 transition duration-300">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-primary">Intermediate (MPC)</h3>
+                        <span class="text-sm font-semibold text-gray-400 bg-gray-700 px-3 py-1 rounded-full shrink-0">2017 - 2019</span>
+                    </div>
+                    <p class="text-gray-300 mb-1">Board of Intermediate Education</p>
+                    <p class="text-sm text-gray-400">Relevant coursework in Mathematics, Physics, and Chemistry.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 6. Contact Section (Original 5) -->
         <section id="contact" class="mb-16 text-center">
             <!-- Text color changed to softer text-gray-200 for visibility -->
             <h2 class="text-3xl font-bold section-header mx-auto mb-8 text-gray-200">Get In Touch</h2>
@@ -415,11 +468,46 @@
 
     <!-- Initialize Lucide Icons and Year -->
     <script>
-        // Replace all <i> tags with corresponding Lucide SVG icons
+        // Main initialization of icons and year
         lucide.createIcons();
-
-        // Set the current year in the footer
         document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // --- NEW JAVASCRIPT FOR MOBILE MENU TOGGLE ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuButton = document.getElementById('menu-button');
+            const mobileMenuContent = document.getElementById('mobile-menu-content');
+            const menuIcon = document.getElementById('menu-icon');
+            
+            if (menuButton && mobileMenuContent && menuIcon) {
+                // Event listener to toggle the mobile menu visibility
+                menuButton.addEventListener('click', () => {
+                    // Toggle the 'hidden' class to show/hide the menu
+                    const isHidden = mobileMenuContent.classList.toggle('hidden');
+                    
+                    // Toggle the icon between 'menu' and 'x' (close)
+                    if (isHidden) {
+                        menuIcon.setAttribute('data-lucide', 'menu');
+                    } else {
+                        menuIcon.setAttribute('data-lucide', 'x');
+                    }
+                    // Re-run lucide.createIcons() to update the SVG icon
+                    lucide.createIcons();
+                });
+
+                // Close menu after clicking a link (improves mobile UX)
+                mobileMenuContent.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        // Only close if the menu is currently open (not hidden)
+                        if (!mobileMenuContent.classList.contains('hidden')) {
+                            mobileMenuContent.classList.add('hidden');
+                            menuIcon.setAttribute('data-lucide', 'menu');
+                            lucide.createIcons();
+                        }
+                    });
+                });
+            }
+        });
+        // --- END NEW JAVASCRIPT ---
     </script>
 
 </body>
