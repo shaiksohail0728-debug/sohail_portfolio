@@ -126,6 +126,47 @@
             visibility: visible; 
             animation: fadeInUp 0.7s ease-out forwards;
         }
+        
+        /* Style for the project header visual blocks */
+        .project-header-visual {
+            /* Now acting as a relative container for the absolute image */
+            position: relative; 
+            background-color: #111827;
+            height: 12rem; /* h-48 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #4b5563;
+            overflow: hidden; /* Crucial to contain the absolute image */
+        }
+        
+        /* --- NEW: IMAGE & BLUR STYLES --- */
+        .project-header-visual .project-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.5; /* Slight opacity overlay for better icon visibility */
+            filter: blur(5px); /* Initial blur effect */
+            transition: filter 0.5s ease-out, transform 0.5s ease-out, opacity 0.5s ease-out; /* Transition for smooth animation */
+            transform: scale(1.05); /* Slightly zoomed in state for blur */
+        }
+
+        /* Hover effect on the parent card: remove blur and zoom out slightly */
+        .bg-dark-card:hover .project-image {
+            filter: blur(1px); /* Less blur on hover */
+            transform: scale(1); /* Zoom out to normal scale */
+            opacity: 0.7; /* Slightly more visible on hover */
+        }
+
+        /* Ensure the icon remains on top */
+        .project-header-visual i {
+            position: relative; /* Brings the icon above the absolute image */
+            z-index: 10;
+        }
+        /* --- END NEW STYLES --- */
     </style>
     <script>
         tailwind.config = {
@@ -296,10 +337,18 @@
             <!-- Grid uses 1 column on mobile, 2 on medium, and 3 on large screens -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                <!-- Project Card 1 -->
+                <!-- Project Card 1: Production Efficiency (TEEPc) -->
                 <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40 animated-element">
-                    <div class="h-48 bg-gray-700 flex items-center justify-center text-gray-300 font-bold">
-                        Project TEEPC Improvement 
+                    <div class="project-header-visual">
+                        <!-- Image with blur effect -->
+                        <img 
+                            src="teepc-efficiency.png" 
+                            alt="Image for TEEPc Efficiency Improvement" 
+                            class="project-image"
+                            onerror="this.style.backgroundColor='#111827'; this.style.opacity='0'; this.style.filter='none';"
+                        >
+                        <!-- Icon for efficiency/performance -->
+                        <i data-lucide="gauge" class="w-16 h-16 text-primary drop-shadow-[0_0_10px_rgba(45,212,191,0.5)]"></i>
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2 text-primary">Production Efficiency Improvement (TEEPc)</h3>
@@ -321,10 +370,18 @@
                     </div>
                 </div>
 
-                <!-- Project Card 2 -->
+                <!-- Project Card 2: Automated Monitoring (BI) -->
                 <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40 animated-element" style="animation-delay: 0.1s;">
-                    <div class="h-48 bg-gray-700 flex items-center justify-center text-gray-300 font-bold">
-                         Automated Monitoring BI Platform 
+                    <div class="project-header-visual">
+                        <!-- Image with blur effect -->
+                        <img 
+                            src="automated-monitoring.png" 
+                            alt="Image for Automated Performance Monitoring" 
+                            class="project-image"
+                            onerror="this.style.backgroundColor='#111827'; this.style.opacity='0'; this.style.filter='none';"
+                        >
+                        <!-- Icon for Business Intelligence/Dashboards -->
+                        <i data-lucide="layout-dashboard" class="w-16 h-16 text-primary drop-shadow-[0_0_10px_rgba(45,212,191,0.5)]"></i>
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2 text-primary">Automated Performance Monitoring System</h3>
@@ -347,10 +404,18 @@
                     </div>
                 </div>
 
-                <!-- Project Card 3 -->
+                <!-- Project Card 3: Waste Reduction -->
                 <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40 animated-element" style="animation-delay: 0.2s;">
-                    <div class="h-48 bg-gray-700 flex items-center justify-center text-gray-300 font-bold">
-                         Waste Reduction Project 
+                    <div class="project-header-visual">
+                        <!-- Image with blur effect -->
+                        <img 
+                            src="waste-reduction.png" 
+                            alt="Image for Manufacturing Waste Reduction" 
+                            class="project-image"
+                            onerror="this.style.backgroundColor='#111827'; this.style.opacity='0'; this.style.filter='none';"
+                        >
+                        <!-- Icon for Waste/Scrap Reduction -->
+                        <i data-lucide="trash-2" class="w-16 h-16 text-primary drop-shadow-[0_0_10px_rgba(45,212,191,0.5)]"></i>
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2 text-primary">Manufacturing Waste Reduction & Control</h3>
@@ -373,10 +438,18 @@
                     </div>
                 </div>
 
-                <!-- Project Card 4 -->
+                <!-- Project Card 4: Cycle Time Optimisation -->
                 <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40 animated-element">
-                    <div class="h-48 bg-gray-700 flex items-center justify-center text-gray-300 font-bold">
-                         Cycle Time Optimisation Analytical Tool
+                    <div class="project-header-visual">
+                        <!-- Image with blur effect -->
+                        <img 
+                            src="cycle-time-optimisation.png" 
+                            alt="Image for Production Cycle Time Optimisation" 
+                            class="project-image"
+                            onerror="this.style.backgroundColor='#111827'; this.style.opacity='0'; this.style.filter='none';"
+                        >
+                        <!-- Icon for Speed/Time Optimization -->
+                        <i data-lucide="clock" class="w-16 h-16 text-primary drop-shadow-[0_0_10px_rgba(45,212,191,0.5)]"></i>
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2 text-primary">Production Cycle Time Optimisation</h3>
@@ -399,10 +472,18 @@
                     </div>
                 </div>
 
-                <!-- Project Card 5 -->
+                <!-- Project Card 5: AI-Powered CI/CD System -->
                 <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40 animated-element" style="animation-delay: 0.1s;">
-                    <div class="h-48 bg-gray-700 flex items-center justify-center text-gray-300 font-bold">
-                         AI-Powered CI/CD System
+                    <div class="project-header-visual">
+                        <!-- Image with blur effect -->
+                        <img 
+                            src="ai-portfolio-deployment.png" 
+                            alt="Image for AI-Powered Portfolio Generation" 
+                            class="project-image"
+                            onerror="this.style.backgroundColor='#111827'; this.style.opacity='0'; this.style.filter='none';"
+                        >
+                        <!-- Icon for AI/Automation -->
+                        <i data-lucide="brain-circuit" class="w-16 h-16 text-primary drop-shadow-[0_0_10px_rgba(45,212,191,0.5)]"></i>
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2 text-primary">AI-Powered Portfolio Generation & Deployment</h3>
