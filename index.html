@@ -146,7 +146,8 @@
                 <!-- Mobile Menu Button (Hamburger) - visible only below 'md' breakpoint -->
                 <button id="menu-button" class="md:hidden p-2 rounded-lg text-primary hover:bg-gray-700 transition duration-150">
                     <!-- Icon placeholder, toggled by JS -->
-                    <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
+                    <!-- Removed id="menu-icon" as the new JS logic regenerates the inner content -->
+                    <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
                 
                 <!-- Desktop Links (Always visible and horizontal on 'md' screens and up) -->
@@ -493,33 +494,39 @@
         lucide.createIcons();
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // --- MOBILE MENU TOGGLE LOGIC ---
+        // --- MOBILE MENU TOGGLE LOGIC (REFACTORED FOR BUG FIX) ---
         document.addEventListener('DOMContentLoaded', () => {
             const menuButton = document.getElementById('menu-button');
             const mobileMenuContent = document.getElementById('mobile-menu-content');
-            const menuIcon = document.getElementById('menu-icon');
             
-            if (menuButton && mobileMenuContent && menuIcon) {
+            // Helper function to reliably set the Lucide icon by recreating the placeholder
+            // This prevents issues where the SVG element is replaced and references are lost.
+            const toggleMenuIcon = (isOpen) => {
+                if (!menuButton) return;
+
+                const iconName = isOpen ? 'x' : 'menu';
+                // 1. Inject the new <i> placeholder into the button container
+                menuButton.innerHTML = `<i data-lucide="${iconName}" class="w-6 h-6"></i>`;
+                // 2. Re-render all Lucide icons
+                lucide.createIcons();
+            };
+
+            if (menuButton && mobileMenuContent) {
                 // Event listener to toggle the mobile menu visibility
                 menuButton.addEventListener('click', () => {
                     const isHidden = mobileMenuContent.classList.toggle('hidden');
-                    
-                    // Toggle the icon between 'menu' and 'x' (close)
-                    if (isHidden) {
-                        menuIcon.setAttribute('data-lucide', 'menu');
-                    } else {
-                        menuIcon.setAttribute('data-lucide', 'x');
-                    }
-                    lucide.createIcons();
+                    // If the menu is NOT hidden (i.e., it's open), show 'x'. If it IS hidden (i.e., it's closed), show 'menu'.
+                    toggleMenuIcon(!isHidden); 
                 });
 
                 // Close menu after clicking a link (improves mobile UX)
                 mobileMenuContent.querySelectorAll('a').forEach(link => {
                     link.addEventListener('click', () => {
+                        // Only proceed if the menu is currently visible
                         if (!mobileMenuContent.classList.contains('hidden')) {
                             mobileMenuContent.classList.add('hidden');
-                            menuIcon.setAttribute('data-lucide', 'menu');
-                            lucide.createIcons();
+                            // Always show the 'menu' icon when closing the menu via a link click
+                            toggleMenuIcon(false); 
                         }
                     });
                 });
