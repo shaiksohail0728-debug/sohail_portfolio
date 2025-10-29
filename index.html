@@ -19,38 +19,33 @@
         }
         body {
             font-family: 'Inter', sans-serif;
-            /* FIX: Ensure body has a solid dark color to prevent white flash on scroll */
             background-color: #0f172a; 
             color: #f3f4f6; /* Light Grey Text */
-            scroll-behavior: smooth;
+            
+            /* --- IMPROVEMENT 2: ENSURE SMOOTH SCROLLING --- */
+            scroll-behavior: smooth; 
+            
             margin: 0;
-            overflow-x: hidden; /* Prevent horizontal body scroll bars */
+            overflow-x: hidden;
             min-height: 100vh;
         }
 
         /* --- MOTION BACKGROUND STYLES --- */
         .motion-background {
-            /* FIX: Set height to 100% so the animated layer covers the entire content length, not just the viewport height */
             height: 100%;
-            /* Define a huge background size to allow for large, smooth movements */
             background-size: 400% 400%; 
-            /* Define the colors for the gradient, tailored to the portfolio's dark/teal theme */
             background-image: linear-gradient(
                 135deg, 
-                #0f172a, /* Deep Slate */
-                #1e3a8a, /* Indigo */
-                #2dd4bf, /* Primary Teal */
-                #6d28d9  /* Deep Violet */
+                #0f172a, 
+                #1e3a8a, 
+                #2dd4bf, 
+                #6d28d9  
             );
-            /* Ensure it covers the initial viewport */
             min-height: 100vh;
             width: 100vw;
-            
-            /* Apply a slower animation (20s) for a professional feel */
             animation: gradient-motion 20s ease infinite;
         }
 
-        /* Define the keyframes for the animation */
         @keyframes gradient-motion {
             0% {
                 background-position: 0% 50%; 
@@ -70,7 +65,6 @@
             color: #1f2937;
         }
         .section-header {
-            /* Border color changed to dark gray for better subtlety */
             border-bottom: 2px solid #4b5563; 
             padding-bottom: 0.5rem;
             display: inline-block;
@@ -80,23 +74,43 @@
             stroke: var(--primary-color);
         }
         
-        /* Custom CSS for a subtle dark shadow/edge effect on light text */
         .text-stroke-dark {
             text-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 
                          0 0 10px rgba(0, 0, 0, 0.2);
         }
 
-        /* --- ANIMATION STYLES (UPDATED FOR REPLAYABILITY) --- */
-        /* Initial state for elements to be animated (Start Position) */
+        /* --- IMPROVEMENT 1: MOBILE MENU ANIMATION STYLES (Vertical Slide) --- */
+        #mobile-menu-content {
+            /* Use max-height for smooth vertical slide combined with opacity for fade */
+            transition: max-height 0.4s cubic-bezier(0.86, 0, 0.07, 1), opacity 0.3s ease-out;
+            max-height: 0; /* Start closed */
+            opacity: 0;
+            overflow: hidden;
+            
+            /* Ensure it retains flex properties but starts invisible */
+            display: flex; 
+            flex-direction: column;
+            width: 100%;
+
+            /* Match Tailwind classes removed from HTML */
+            margin-top: 1rem; /* mt-4 */
+            padding-top: 1rem; /* pt-4 */
+            border-top: 1px solid #4b5563; /* border-gray-700 */
+        }
+        
+        #mobile-menu-content.menu-open {
+            max-height: 500px; /* Value must be larger than the menu content height */
+            opacity: 1;
+        }
+        
+        /* --- SCROLL ANIMATION STYLES (Updated to be smooth) --- */
         .animated-element {
             opacity: 0;
             visibility: hidden; 
             transform: translateY(20px);
-            /* Add a transition for a smooth reset when the class is removed on scroll-out */
             transition: opacity 0.5s, transform 0.5s, visibility 0.5s;
         }
 
-        /* Keyframes for the smooth fade-in-up effect */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -108,13 +122,10 @@
             }
         }
 
-        /* Class applied by JS when the element enters the viewport (End Position) */
-        /* The 'forwards' ensures it locks into the final position defined by the keyframe */
         .fade-in-up {
             visibility: visible; 
             animation: fadeInUp 0.7s ease-out forwards;
         }
-        /* --- END ANIMATION STYLES --- */
     </style>
     <script>
         tailwind.config = {
@@ -143,15 +154,12 @@
                 <!-- Logo: -->
                 <a href="#hero" class="text-xl font-bold text-primary shrink-0">SHAIK.SOHAIL</a>
                 
-                <!-- Mobile Menu Button (Hamburger) - visible only below 'md' breakpoint -->
+                <!-- Mobile Menu Button (Hamburger) -->
                 <button id="menu-button" class="md:hidden p-2 rounded-lg text-primary hover:bg-gray-700 transition duration-150">
-                    <!-- Icon placeholder, toggled by JS -->
-                    <!-- Removed id="menu-icon" as the new JS logic regenerates the inner content -->
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
                 
                 <!-- Desktop Links (Always visible and horizontal on 'md' screens and up) -->
-                <!-- The 'hidden' class on mobile is overridden by JS when the menu is open -->
                 <div class="hidden md:flex md:space-x-6 md:space-x-3" id="nav-links">
                     <a href="#about" class="text-gray-300 hover:text-primary transition duration-150 text-base py-1 md:py-0">About</a>
                     <a href="#skills" class="text-gray-300 hover:text-primary transition duration-150 text-base py-1 md:py-0">Expertise</a>
@@ -162,7 +170,8 @@
             </div>
 
             <!-- Mobile Menu Dropdown -->
-            <div id="mobile-menu-content" class="md:hidden hidden flex-col w-full mt-4 space-y-2 border-t border-gray-700 pt-4">
+            <!-- NOTE: Removed 'hidden' class here, as visibility is now controlled by custom CSS and JS 'menu-open' class -->
+            <div id="mobile-menu-content" class="md:hidden space-y-2"> 
                 <a href="#about" class="block text-gray-300 hover:text-primary transition duration-150 text-lg font-medium py-2">About</a>
                 <a href="#skills" class="block text-gray-300 hover:text-primary transition duration-150 text-lg font-medium py-2">Expertise</a>
                 <a href="#projects" class="block text-gray-300 hover:text-primary transition duration-150 text-lg font-medium py-2">Projects</a>
@@ -494,13 +503,12 @@
         lucide.createIcons();
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // --- MOBILE MENU TOGGLE LOGIC (REFACTORED FOR BUG FIX) ---
+        // --- MOBILE MENU TOGGLE LOGIC (UPDATED FOR ANIMATION) ---
         document.addEventListener('DOMContentLoaded', () => {
             const menuButton = document.getElementById('menu-button');
             const mobileMenuContent = document.getElementById('mobile-menu-content');
             
             // Helper function to reliably set the Lucide icon by recreating the placeholder
-            // This prevents issues where the SVG element is replaced and references are lost.
             const toggleMenuIcon = (isOpen) => {
                 if (!menuButton) return;
 
@@ -514,17 +522,21 @@
             if (menuButton && mobileMenuContent) {
                 // Event listener to toggle the mobile menu visibility
                 menuButton.addEventListener('click', () => {
-                    const isHidden = mobileMenuContent.classList.toggle('hidden');
-                    // If the menu is NOT hidden (i.e., it's open), show 'x'. If it IS hidden (i.e., it's closed), show 'menu'.
-                    toggleMenuIcon(!isHidden); 
+                    // Toggle the 'menu-open' class to trigger the CSS max-height/opacity animation
+                    const isOpen = mobileMenuContent.classList.toggle('menu-open');
+                    
+                    // Toggle icon: true (menu open) shows 'x', false (menu closed) shows 'menu'
+                    toggleMenuIcon(isOpen); 
                 });
 
                 // Close menu after clicking a link (improves mobile UX)
                 mobileMenuContent.querySelectorAll('a').forEach(link => {
                     link.addEventListener('click', () => {
-                        // Only proceed if the menu is currently visible
-                        if (!mobileMenuContent.classList.contains('hidden')) {
-                            mobileMenuContent.classList.add('hidden');
+                        // Only proceed if the menu is currently visible (has menu-open class)
+                        if (mobileMenuContent.classList.contains('menu-open')) {
+                            // Close the menu by removing the class
+                            mobileMenuContent.classList.remove('menu-open');
+                            
                             // Always show the 'menu' icon when closing the menu via a link click
                             toggleMenuIcon(false); 
                         }
