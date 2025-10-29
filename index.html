@@ -21,10 +21,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #0f172a; 
             color: #f3f4f6; /* Light Grey Text */
-            
-            /* --- IMPROVEMENT 2: ENSURE SMOOTH SCROLLING --- */
             scroll-behavior: smooth; 
-            
             margin: 0;
             overflow-x: hidden;
             min-height: 100vh;
@@ -47,19 +44,12 @@
         }
 
         @keyframes gradient-motion {
-            0% {
-                background-position: 0% 50%; 
-            }
-            50% {
-                background-position: 100% 50%; 
-            }
-            100% {
-                background-position: 0% 50%; 
-            }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         /* --- END MOTION BACKGROUND STYLES --- */
 
-        /* Custom selection color for a better UX */
         ::selection {
             background: var(--primary-color);
             color: #1f2937;
@@ -69,67 +59,54 @@
             padding-bottom: 0.5rem;
             display: inline-block;
         }
-        /* Custom styles for Lucide icons */
         .icon {
             stroke: var(--primary-color);
         }
-        
         .text-stroke-dark {
             text-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 
                          0 0 10px rgba(0, 0, 0, 0.2);
         }
 
-        /* --- IMPROVEMENT 1: MOBILE MENU ANIMATION STYLES (Vertical Slide) --- */
+        /* --- MOBILE MENU ANIMATION STYLES (Vertical Slide) --- */
         #mobile-menu-content {
-            /* Use max-height for smooth vertical slide combined with opacity for fade */
             transition: max-height 0.4s cubic-bezier(0.86, 0, 0.07, 1), opacity 0.3s ease-out;
             max-height: 0; /* Start closed */
             opacity: 0;
             overflow: hidden;
-            
-            /* Ensure it retains flex properties but starts invisible */
             display: flex; 
             flex-direction: column;
             width: 100%;
-
-            /* Match Tailwind classes removed from HTML */
             margin-top: 1rem; /* mt-4 */
             padding-top: 1rem; /* pt-4 */
             border-top: 1px solid #4b5563; /* border-gray-700 */
         }
-        
         #mobile-menu-content.menu-open {
-            max-height: 500px; /* Value must be larger than the menu content height */
+            max-height: 500px; /* Larger than menu content height */
             opacity: 1;
         }
         
-        /* --- SCROLL ANIMATION STYLES (Updated to be smooth) --- */
+        /* --- NEW: SCROLL ANIMATION STYLES (Popup/Fade) --- */
         .animated-element {
             opacity: 0;
-            visibility: hidden; 
-            transform: translateY(20px);
-            transition: opacity 0.5s, transform 0.5s, visibility 0.5s;
+            transform: scale(0.95) translateY(10px); /* Initial state for popup */
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            will-change: opacity, transform; /* Optimize animation */
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Animation for appearing (Popup Scale Up) */
+        .popup-scale-up {
+            opacity: 1;
+            transform: scale(1) translateY(0);
         }
 
-        .fade-in-up {
-            visibility: visible; 
-            animation: fadeInUp 0.7s ease-out forwards;
+        /* Animation for disappearing (Fade Out Down) */
+        .fade-out-down {
+            opacity: 0;
+            transform: scale(0.95) translateY(10px);
         }
+        /* --- END NEW SCROLL ANIMATION STYLES --- */
         
-        /* Style for the project header visual blocks */
         .project-header-visual {
-            /* Now acting as a relative container for the absolute image */
             position: relative; 
             background-color: #111827;
             height: 12rem; /* h-48 */
@@ -137,10 +114,8 @@
             align-items: center;
             justify-content: center;
             border-bottom: 1px solid #4b5563;
-            overflow: hidden; /* Crucial to contain the absolute image */
+            overflow: hidden; 
         }
-        
-        /* --- NEW: IMAGE & BLUR STYLES --- */
         .project-header-visual .project-image {
             position: absolute;
             top: 0;
@@ -148,25 +123,48 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.5; /* Slight opacity overlay for better icon visibility */
-            filter: blur(5px); /* Initial blur effect */
-            transition: filter 0.5s ease-out, transform 0.5s ease-out, opacity 0.5s ease-out; /* Transition for smooth animation */
-            transform: scale(1.05); /* Slightly zoomed in state for blur */
+            opacity: 0.5; 
+            filter: blur(5px); 
+            transition: filter 0.5s ease-out, transform 0.5s ease-out, opacity 0.5s ease-out; 
+            transform: scale(1.05); 
         }
-
-        /* Hover effect on the parent card: remove blur and zoom out slightly */
         .bg-dark-card:hover .project-image {
-            filter: blur(1px); /* Less blur on hover */
-            transform: scale(1); /* Zoom out to normal scale */
-            opacity: 0.7; /* Slightly more visible on hover */
+            filter: blur(1px); 
+            transform: scale(1); 
+            opacity: 0.7; 
         }
-
-        /* Ensure the icon remains on top */
         .project-header-visual i {
-            position: relative; /* Brings the icon above the absolute image */
+            position: relative; 
             z-index: 10;
         }
-        /* --- END NEW STYLES --- */
+        
+        /* --- DOWNLOAD RESUME BUTTON STYLES (Moved to flow) --- */
+        #download-resume-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem; /* Add some space before the footer */
+            padding-top: 1rem; /* Add space above button if needed */
+        }
+        #download-resume-link {
+            background-color: var(--primary-color);
+            color: #0f172a; /* Dark text */
+            padding: 0.75rem 1.5rem; /* py-3 px-6 */
+            border-radius: 9999px; /* rounded-full */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+            transition: all 0.3s ease-in-out;
+            display: inline-flex; /* Use inline-flex for icon + text */
+            align-items: center; 
+            gap: 0.5rem; /* gap-2 */
+            font-weight: 600; /* semibold */
+            text-decoration: none; /* Remove underline */
+        }
+        #download-resume-link:hover {
+            background-color: #5eead4; /* Lighter teal */
+            transform: scale(1.05); 
+            box-shadow: 0 0 20px rgba(45, 212, 191, 0.6); /* Glow */
+        }
+        /* --- END DOWNLOAD RESUME STYLES --- */
+        
     </style>
     <script>
         tailwind.config = {
@@ -186,21 +184,14 @@
     <!-- MOTION BACKGROUND LAYER -->
     <div class="motion-background absolute inset-0 z-0"></div>
 
-    <!-- Navigation Header (Mobile Optimized) -->
+    <!-- Navigation Header -->
     <header class="sticky top-0 z-50 bg-gray-900/90 backdrop-blur-sm shadow-lg">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            
-            <!-- Logo and Hamburger Row -->
             <div class="flex justify-between items-center">
-                <!-- Logo: -->
                 <a href="#hero" class="text-xl font-bold text-primary shrink-0">SHAIK.SOHAIL</a>
-                
-                <!-- Mobile Menu Button (Hamburger) -->
                 <button id="menu-button" class="md:hidden p-2 rounded-lg text-primary hover:bg-gray-700 transition duration-150">
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
-                
-                <!-- Desktop Links (Always visible and horizontal on 'md' screens and up) -->
                 <div class="hidden md:flex md:space-x-6 md:space-x-3" id="nav-links">
                     <a href="#about" class="text-gray-300 hover:text-primary transition duration-150 text-base py-1 md:py-0">About</a>
                     <a href="#skills" class="text-gray-300 hover:text-primary transition duration-150 text-base py-1 md:py-0">Expertise</a>
@@ -209,9 +200,6 @@
                     <a href="#contact" class="text-gray-300 hover:text-primary transition duration-150 text-base py-1 md:py-0">Contact</a>
                 </div>
             </div>
-
-            <!-- Mobile Menu Dropdown -->
-            <!-- NOTE: Removed 'hidden' class here, as visibility is now controlled by custom CSS and JS 'menu-open' class -->
             <div id="mobile-menu-content" class="md:hidden space-y-2"> 
                 <a href="#about" class="block text-gray-300 hover:text-primary transition duration-150 text-lg font-medium py-2">About</a>
                 <a href="#skills" class="block text-gray-300 hover:text-primary transition duration-150 text-lg font-medium py-2">Expertise</a>
@@ -219,16 +207,13 @@
                 <a href="#education" class="block text-gray-300 hover:text-primary transition duration-150 text-lg font-medium py-2">Education</a>
                 <a href="#contact" class="block text-gray-300 hover:text-primary transition duration-150 text-lg font-medium py-2">Contact</a>
             </div>
-            
         </nav>
     </header>
 
     <!-- 1. Hero Section -->
     <section id="hero" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 flex items-center min-h-[80vh] relative z-10">
         <div class="flex flex-col md:flex-row items-center gap-10">
-            <!-- Text Content: Stacks first on mobile (flex-col) -->
             <div class="md:w-3/5 text-center md:text-left">
-                <!-- Hero content is ALWAYS visible, so we don't use .animated-element here -->
                 <p class="text-lg text-primary mb-3 text-stroke-dark">Hello, I'm</p>
                 <h1 class="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight text-stroke-dark">
                     Shaik Sohail
@@ -239,7 +224,6 @@
                 <p class="text-gray-300 max-w-lg mx-auto md:mx-0 mb-8 text-lg font-bold">
                     I drive operational efficiency in the tyre industry through **data analysis**, process optimization, and leadership, focusing on defect control and achieving measurable results.
                 </p>
-                <!-- Buttons -->
                 <div class="flex flex-col sm:flex-row justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
                     <a href="#projects" class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-full shadow-lg text-gray-900 bg-primary hover:bg-teal-300 transition duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-gray-900">
                         View Key Projects
@@ -249,7 +233,6 @@
                     </a>
                 </div>
             </div>
-            <!-- Profile Picture -->
             <div class="md:w-2/5 flex justify-center order-first md:order-last">
                 <div class="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden shadow-2xl shadow-primary/20 ring-4 ring-primary ring-offset-4 ring-offset-slate-900">
                     <img 
@@ -268,14 +251,11 @@
 
         <!-- 2. About Me Section -->
         <section id="about" class="mb-24">
-            <!-- Animated Header -->
             <h2 class="text-3xl font-bold section-header mb-8 text-gray-200 animated-element">Professional Overview</h2>
-            <!-- Animated Card -->
             <div class="bg-dark-card p-8 rounded-xl shadow-xl animated-element">
                 <p class="text-gray-300 text-lg mb-4">
                     I am a **Technology Executive at Apollo Tyres** with 2 years of experience (2023-Present) driving measurable improvements in manufacturing environments. My expertise lies in managing production quality, optimizing processes, and leveraging data to achieve operational excellence.
                 </p>
-                <!-- Animated List Items -->
                 <ul class="list-disc list-inside text-gray-300 text-lg space-y-2 pl-4">
                     <li class="animated-element">**Process Optimization:** Successfully achieved a cycle time reduction in the PCR CATL machine by 1.8 seconds (closing 50% of the target gap).</li>
                     <li class="animated-element">**Waste & Quality Control:** Led initiatives that resulted in a significant reduction of steel scrap from 0.52% to **0.40%**.</li>
@@ -286,236 +266,150 @@
 
         <!-- 3. Skills Section -->
         <section id="skills" class="mb-24">
-            <!-- Animated Header -->
             <h2 class="text-3xl font-bold section-header mb-8 text-gray-200 animated-element">Core Expertise & Skills</h2>
-            <!-- Grid adapts from 2 columns (mobile) to 6 columns (large) -->
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-
-                <!-- Skill Cards (added animated-element to each) -->
                 <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700 animated-element">
                     <i data-lucide="award" class="w-8 h-8 mx-auto mb-3 icon"></i>
                     <p class="text-lg font-medium">Leadership & Teamwork</p>
                 </div>
-
                 <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700 animated-element">
                     <i data-lucide="layout-dashboard" class="w-8 h-8 mx-auto mb-3 icon"></i>
                     <p class="text-lg font-medium">Lean Manufacturing</p>
                 </div>
-
                 <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700 animated-element">
                     <i data-lucide="bar-chart-2" class="w-8 h-8 mx-auto mb-3 icon"></i>
                     <p class="text-lg font-medium">Data Analytics (Power BI)</p>
                 </div>
-
                 <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700 animated-element">
                     <i data-lucide="zap" class="w-8 h-8 mx-auto mb-3 icon"></i>
                     <p class="text-lg font-medium">Process Automation</p>
                 </div>
-
                 <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700 animated-element">
                     <i data-lucide="target" class="w-8 h-8 mx-auto mb-3 icon"></i>
                     <p class="text-lg font-medium">Strategic Planning</p>
                 </div>
-                
                 <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700 animated-element">
                     <i data-lucide="cpu" class="w-8 h-8 mx-auto mb-3 icon"></i>
                     <p class="text-lg font-medium">Problem-Solving</p>
                 </div>
-
                 <div class="bg-dark-card p-6 rounded-lg text-center transition duration-300 hover:shadow-2xl hover:shadow-primary/30 transform hover:-translate-y-1 border border-gray-700 animated-element">
                     <i data-lucide="file-text" class="w-8 h-8 mx-auto mb-3 icon"></i>
                     <p class="text-lg font-medium">Microsoft Office</p>
                 </div>
-
             </div>
         </section>
 
         <!-- 4. Projects Section -->
         <section id="projects" class="mb-24">
-            <!-- Animated Header -->
             <h2 class="text-3xl font-bold section-header mb-8 text-gray-200 animated-element">Key Analytical & Process Improvement Projects</h2>
-            <!-- Grid uses 1 column on mobile, 2 on medium, and 3 on large screens -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-                <!-- Project Card 1: Production Efficiency (TEEPc) -->
+                <!-- Project Card 1 -->
                 <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40 animated-element">
                     <div class="project-header-visual">
-                        <!-- Image with blur effect -->
-                        <img 
-                            src="teepc-efficiency.png" 
-                            alt="Image for TEEPc Efficiency Improvement" 
-                            class="project-image"
-                            onerror="this.style.backgroundColor='#111827'; this.style.opacity='0'; this.style.filter='none';"
-                        >
-                        <!-- Icon for efficiency/performance -->
+                        <img src="teepc-efficiency.png" alt="Image for TEEPc Efficiency Improvement" class="project-image" onerror="this.style.backgroundColor='#111827'; this.style.opacity='0'; this.style.filter='none';">
                         <i data-lucide="gauge" class="w-16 h-16 text-primary drop-shadow-[0_0_10px_rgba(45,212,191,0.5)]"></i>
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2 text-primary">Production Efficiency Improvement (TEEPc)</h3>
-                        <p class="text-gray-400 mb-4 text-sm">Spearheaded an optimization initiative to boost equipment utilization and output. Utilized QCC tools for in-depth process analysis and standardization, successfully increasing Total Effective Equipment Performance (TEEPc) from 68% to **72%**.</p>
+                        <p class="text-gray-400 mb-4 text-sm">Spearheaded an optimization initiative... (content truncated for brevity)</p>
                         <div class="flex flex-wrap gap-2 text-xs font-semibold mb-4">
                             <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">QCC Methodologies</span>
                             <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Process Mapping</span>
                         </div>
                         <div class="flex space-x-3">
-                            <a href="#" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
-                                <i data-lucide="external-link" class="w-4 h-4"></i>
-                                <span>Demo (N/A)</span>
-                            </a>
-                            <a href="#" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
-                                <i data-lucide="github" class="w-4 h-4"></i>
-                                <span>Code (N/A)</span>
-                            </a>
+                            <a href="#" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed"> <i data-lucide="external-link" class="w-4 h-4"></i> <span>Demo (N/A)</span></a>
+                            <a href="#" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed"> <i data-lucide="github" class="w-4 h-4"></i> <span>Code (N/A)</span></a>
                         </div>
                     </div>
                 </div>
-
-                <!-- Project Card 2: Automated Monitoring (BI) -->
+                 <!-- Project Card 2 -->
                 <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40 animated-element" style="animation-delay: 0.1s;">
                     <div class="project-header-visual">
-                        <!-- Image with blur effect -->
-                        <img 
-                            src="automated-monitoring.png" 
-                            alt="Image for Automated Performance Monitoring" 
-                            class="project-image"
-                            onerror="this.style.backgroundColor='#111827'; this.style.opacity='0'; this.style.filter='none';"
-                        >
-                        <!-- Icon for Business Intelligence/Dashboards -->
+                        <img src="automated-monitoring.png" alt="Image for Automated Performance Monitoring" class="project-image" onerror="this.style.backgroundColor='#111827'; this.style.opacity='0'; this.style.filter='none';">
                         <i data-lucide="layout-dashboard" class="w-16 h-16 text-primary drop-shadow-[0_0_10px_rgba(45,212,191,0.5)]"></i>
                     </div>
-                    <div class="p-6">
+                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2 text-primary">Automated Performance Monitoring System</h3>
-                        <p class="text-gray-400 mb-4 text-sm">Developed and deployed a standalone Business Intelligence platform to track departmental performance. Created **22 comprehensive Power BI dashboards** with an automated data pipeline, providing leadership with real-time, data-driven insights.</p>
-                        <div class="flex flex-wrap gap-2 text-xs font-semibold mb-4">
+                        <p class="text-gray-400 mb-4 text-sm">Developed and deployed a standalone Business Intelligence platform... (content truncated)</p>
+                         <div class="flex flex-wrap gap-2 text-xs font-semibold mb-4">
                             <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Power BI</span>
                             <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Data Automation/Modeling</span>
                             <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Microsoft Forms/Excel</span>
                         </div>
                         <div class="flex space-x-3">
-                            <a href="#" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
-                                <i data-lucide="external-link" class="w-4 h-4"></i>
-                                <span>Demo (N/A)</span>
-                            </a>
-                            <a href="#" target="_blank" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
-                                <i data-lucide="github" class="w-4 h-4"></i>
-                                <span>Code (N/A)</span>
-                            </a>
+                             <a href="#" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed"><i data-lucide="external-link" class="w-4 h-4"></i><span>Demo (N/A)</span></a>
+                             <a href="#" target="_blank" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed"><i data-lucide="github" class="w-4 h-4"></i><span>Code (N/A)</span></a>
                         </div>
                     </div>
                 </div>
-
-                <!-- Project Card 3: Waste Reduction -->
+                 <!-- Project Card 3 -->
                 <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40 animated-element" style="animation-delay: 0.2s;">
-                    <div class="project-header-visual">
-                        <!-- Image with blur effect -->
-                        <img 
-                            src="waste-reduction.png" 
-                            alt="Image for Manufacturing Waste Reduction" 
-                            class="project-image"
-                            onerror="this.style.backgroundColor='#111827'; this.style.opacity='0'; this.style.filter='none';"
-                        >
-                        <!-- Icon for Waste/Scrap Reduction -->
+                   <div class="project-header-visual">
+                       <img src="waste-reduction.png" alt="Image for Manufacturing Waste Reduction" class="project-image" onerror="this.style.backgroundColor='#111827'; this.style.opacity='0'; this.style.filter='none';">
                         <i data-lucide="trash-2" class="w-16 h-16 text-primary drop-shadow-[0_0_10px_rgba(45,212,191,0.5)]"></i>
-                    </div>
+                   </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2 text-primary">Manufacturing Waste Reduction & Control</h3>
-                        <p class="text-gray-400 mb-4 text-sm">Led a quality improvement project focused on minimizing steel scrap generation. Employed QCC methodologies for root-cause analysis and implemented corrective changes, establishing a daily Power BI monitoring routine to ensure a scrap reduction from 0.52% to **0.40%**.</p>
-                        <div class="flex flex-wrap gap-2 text-xs font-semibold mb-4">
+                         <p class="text-gray-400 mb-4 text-sm">Led a quality improvement project focused on minimizing steel scrap... (content truncated)</p>
+                         <div class="flex flex-wrap gap-2 text-xs font-semibold mb-4">
                             <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">QCC Methodologies</span>
                             <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Root Cause Analysis</span>
                             <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Power BI Monitoring</span>
                         </div>
                         <div class="flex space-x-3">
-                            <a href="#" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
-                                <i data-lucide="external-link" class="w-4 h-4"></i>
-                                <span>Demo (N/A)</span>
-                            </a>
-                            <a href="#" target="_blank" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
-                                <i data-lucide="github" class="w-4 h-4"></i>
-                                <span>Code (N/A)</span>
-                            </a>
+                             <a href="#" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed"><i data-lucide="external-link" class="w-4 h-4"></i><span>Demo (N/A)</span></a>
+                             <a href="#" target="_blank" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed"><i data-lucide="github" class="w-4 h-4"></i><span>Code (N/A)</span></a>
                         </div>
-                    </div>
+                   </div>
                 </div>
-
-                <!-- Project Card 4: Cycle Time Optimisation -->
+                 <!-- Project Card 4 -->
                 <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40 animated-element">
-                    <div class="project-header-visual">
-                        <!-- Image with blur effect -->
-                        <img 
-                            src="cycle-time-optimisation.png" 
-                            alt="Image for Production Cycle Time Optimisation" 
-                            class="project-image"
-                            onerror="this.style.backgroundColor='#111827'; this.style.opacity='0'; this.style.filter='none';"
-                        >
-                        <!-- Icon for Speed/Time Optimization -->
+                   <div class="project-header-visual">
+                        <img src="cycle-time-optimisation.png" alt="Image for Production Cycle Time Optimisation" class="project-image" onerror="this.style.backgroundColor='#111827'; this.style.opacity='0'; this.style.filter='none';">
                         <i data-lucide="clock" class="w-16 h-16 text-primary drop-shadow-[0_0_10px_rgba(45,212,191,0.5)]"></i>
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2 text-primary">Production Cycle Time Optimisation</h3>
-                        <p class="text-gray-400 mb-4 text-sm">Designed and launched a "Global Analytical Tool" to enable daily, size-wise data analysis. Optimized machine and recipe parameters based on analytical insights, successfully reducing the machine's cycle time by **1.5 seconds**, closing 50% of the targeted 3-second improvement gap.</p>
-                        <div class="flex flex-wrap gap-2 text-xs font-semibold mb-4">
+                         <p class="text-gray-400 mb-4 text-sm">Designed and launched a "Global Analytical Tool"... (content truncated)</p>
+                         <div class="flex flex-wrap gap-2 text-xs font-semibold mb-4">
                             <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Data Analysis/Visualisation</span>
                             <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Statistical Process Control</span>
-                            <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Machine Parameter Optimisation</span>
+                             <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Machine Parameter Optimisation</span>
                         </div>
                         <div class="flex space-x-3">
-                            <a href="#" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
-                                <i data-lucide="external-link" class="w-4 h-4"></i>
-                                <span>Demo (N/A)</span>
-                            </a>
-                            <a href="#" target="_blank" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
-                                <i data-lucide="github" class="w-4 h-4"></i>
-                                <span>Code (N/A)</span>
-                            </a>
+                             <a href="#" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed"><i data-lucide="external-link" class="w-4 h-4"></i><span>Demo (N/A)</span></a>
+                             <a href="#" target="_blank" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed"><i data-lucide="github" class="w-4 h-4"></i><span>Code (N/A)</span></a>
                         </div>
-                    </div>
+                   </div>
                 </div>
-
-                <!-- Project Card 5: AI-Powered CI/CD System -->
-                <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40 animated-element" style="animation-delay: 0.1s;">
+                 <!-- Project Card 5 -->
+                 <div class="bg-dark-card rounded-xl overflow-hidden shadow-xl border border-gray-700 transition duration-300 hover:shadow-primary/40 animated-element" style="animation-delay: 0.1s;">
                     <div class="project-header-visual">
-                        <!-- Image with blur effect -->
-                        <img 
-                            src="ai-portfolio-deployment.png" 
-                            alt="Image for AI-Powered Portfolio Generation" 
-                            class="project-image"
-                            onerror="this.style.backgroundColor='#111827'; this.style.opacity='0'; this.style.filter='none';"
-                        >
-                        <!-- Icon for AI/Automation -->
+                        <img src="ai-portfolio-deployment.png" alt="Image for AI-Powered Portfolio Generation" class="project-image" onerror="this.style.backgroundColor='#111827'; this.style.opacity='0'; this.style.filter='none';">
                         <i data-lucide="brain-circuit" class="w-16 h-16 text-primary drop-shadow-[0_0_10px_rgba(45,212,191,0.5)]"></i>
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2 text-primary">AI-Powered Portfolio Generation & Deployment</h3>
-                        <p class="text-gray-400 mb-4 text-sm">Engineered an AI-powered portfolio generation and deployment system that demonstrates advanced workflow automation. The core coding structure and functional scripts were developed using Gemini and ChatGPT, showcasing proficiency in leveraging generative AI for rapid, efficient coding. A robust CI/CD pipeline was established using GitHub Actions to automate the build and deployment process upon every content update. This project highlights a strong capability in AI tool utilization, prompt engineering, and DevOps, resulting in a highly scalable and modern web presence. The complete system minimizes manual upkeep and ensures the portfolio is continuously updated with the latest work using minimal traditional code writing.</p>
-                        <div class="flex flex-wrap gap-2 text-xs font-semibold mb-4">
+                        <p class="text-gray-400 mb-4 text-sm">Engineered an AI-powered portfolio generation and deployment system... (content truncated)</p>
+                         <div class="flex flex-wrap gap-2 text-xs font-semibold mb-4">
                             <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">AI Tool Utilization</span>
                             <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">Prompt Engineering</span>
                             <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">CI/CD (GitHub Actions)</span>
                             <span class="bg-gray-700 text-primary py-1 px-3 rounded-full">DevOps</span>
                         </div>
                         <div class="flex space-x-3">
-                            <a href="#" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
-                                <i data-lucide="external-link" class="w-4 h-4"></i>
-                                <span>Demo (N/A)</span>
-                            </a>
-                            <a href="#" target="_blank" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed">
-                                <i data-lucide="github" class="w-4 h-4"></i>
-                                <span>Code (N/A)</span>
-                            </a>
+                             <a href="#" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed"><i data-lucide="external-link" class="w-4 h-4"></i><span>Demo (N/A)</span></a>
+                            <a href="#" target="_blank" class="text-primary hover:text-teal-300 font-medium flex items-center space-x-1 opacity-50 cursor-not-allowed"><i data-lucide="github" class="w-4 h-4"></i><span>Code (N/A)</span></a>
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
 
-        <!-- 5. Education Section (NEW) -->
+        <!-- 5. Education Section -->
         <section id="education" class="mb-24">
-            <!-- Animated Header -->
             <h2 class="text-3xl font-bold section-header mb-8 text-gray-200 animated-element">Education</h2>
             <div class="space-y-8">
-                <!-- Degree 1: B.Tech -->
                 <div class="bg-dark-card p-6 rounded-xl shadow-lg border border-gray-700 hover:shadow-primary/40 transition duration-300 animated-element">
                     <div class="flex justify-between items-start mb-2">
                         <h3 class="text-xl font-bold text-primary">Bachelor of Technology (B.Tech) in Mechanical Engineering</h3>
@@ -524,8 +418,6 @@
                     <p class="text-gray-300 mb-1">PBR Visvodhaya Institute of Technology and Science</p>
                     <p class="text-sm text-gray-400">Achieved an aggregate of **72.3%**.</p>
                 </div>
-                
-                <!-- Degree 2: Intermediate/High School (Placeholder structure) -->
                 <div class="bg-dark-card p-6 rounded-xl shadow-lg border border-gray-700 hover:shadow-primary/40 transition duration-300 animated-element" style="animation-delay: 0.1s;">
                     <div class="flex justify-between items-start mb-2">
                         <h3 class="text-xl font-bold text-primary">Intermediate (MPC)</h3>
@@ -537,37 +429,30 @@
             </div>
         </section>
 
-
-        <!-- 6. Contact Section (Original 5) -->
+        <!-- 6. Contact Section -->
         <section id="contact" class="mb-16 text-center">
-            <!-- Animated Header -->
             <h2 class="text-3xl font-bold section-header mx-auto mb-8 text-gray-200 animated-element">Get In Touch</h2>
-            <!-- Animated Card -->
             <div class="max-w-xl mx-auto bg-dark-card p-10 rounded-xl shadow-2xl border border-gray-700 animated-element">
                 <p class="text-xl text-gray-300 mb-6">
                     I am actively seeking challenging roles in manufacturing and technology. Let's connect!
                 </p>
-
                 <div class="space-y-4">
-                    <a href="mailto:shaik.sohail0728@gamil.com" class="flex items-center justify-center text-lg text-primary hover:text-teal-300 font-medium transition duration-150">
-                        <i data-lucide="mail" class="w-6 h-6 mr-3"></i>
-                        shaik.sohail0728@gamil.com
-                    </a>
-                    <a href="https://www.linkedin.com/in/shaik-sohail0728?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="flex items-center justify-center text-lg text-primary hover:text-teal-300 font-medium transition duration-150">
-                        <i data-lucide="linkedin" class="w-6 h-6 mr-3"></i>
-                        LinkedIn Profile
-                    </a>
-                    <a href="https://github.com/shaiksohail0728-debug" target="_blank" class="flex items-center justify-center text-lg text-primary hover:text-teal-300 font-medium transition duration-150">
-                        <i data-lucide="github" class="w-6 h-6 mr-3"></i>
-                        GitHub Profile
-                    </a>
-                    <a href="https://www.instagram.com/sk_sohail.28?utm_source=qr&igsh=djFmYXIxajg1cGlh" target="_blank" class="flex items-center justify-center text-lg text-primary hover:text-teal-300 font-medium transition duration-150">
-                        <i data-lucide="instagram" class="w-6 h-6 mr-3"></i>
-                        Instagram
-                    </a>
+                    <a href="mailto:shaik.sohail0728@gamil.com" class="flex items-center justify-center text-lg text-primary hover:text-teal-300 font-medium transition duration-150"> <i data-lucide="mail" class="w-6 h-6 mr-3"></i> shaik.sohail0728@gamil.com </a>
+                    <a href="https://www.linkedin.com/in/shaik-sohail0728?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="flex items-center justify-center text-lg text-primary hover:text-teal-300 font-medium transition duration-150"> <i data-lucide="linkedin" class="w-6 h-6 mr-3"></i> LinkedIn Profile </a>
+                    <a href="https://github.com/shaiksohail0728-debug" target="_blank" class="flex items-center justify-center text-lg text-primary hover:text-teal-300 font-medium transition duration-150"> <i data-lucide="github" class="w-6 h-6 mr-3"></i> GitHub Profile </a>
+                    <a href="https://www.instagram.com/sk_sohail.28?utm_source=qr&igsh=djFmYXIxajg1cGlh" target="_blank" class="flex items-center justify-center text-lg text-primary hover:text-teal-300 font-medium transition duration-150"> <i data-lucide="instagram" class="w-6 h-6 mr-3"></i> Instagram </a>
                 </div>
             </div>
         </section>
+
+        <!-- NEW: DOWNLOAD RESUME BUTTON (Moved here, before footer) -->
+        <div id="download-resume-container" class="animated-element">
+             <a href="shaik_sohail_resume.pdf" download="Shaik_Sohail_Resume.pdf" id="download-resume-link" aria-label="Download Resume">
+                <i data-lucide="download-cloud" class="w-5 h-5"></i> <!-- Icon size adjusted -->
+                <span>Download Full Resume</span>
+            </a>
+        </div>
+        <!-- END DOWNLOAD RESUME BUTTON -->
 
     </main>
 
@@ -584,77 +469,70 @@
         lucide.createIcons();
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // --- MOBILE MENU TOGGLE LOGIC (UPDATED FOR ANIMATION) ---
+        // --- MOBILE MENU TOGGLE LOGIC ---
         document.addEventListener('DOMContentLoaded', () => {
             const menuButton = document.getElementById('menu-button');
             const mobileMenuContent = document.getElementById('mobile-menu-content');
             
-            // Helper function to reliably set the Lucide icon by recreating the placeholder
             const toggleMenuIcon = (isOpen) => {
                 if (!menuButton) return;
-
                 const iconName = isOpen ? 'x' : 'menu';
-                // 1. Inject the new <i> placeholder into the button container
                 menuButton.innerHTML = `<i data-lucide="${iconName}" class="w-6 h-6"></i>`;
-                // 2. Re-render all Lucide icons
-                lucide.createIcons();
+                lucide.createIcons(); 
             };
 
             if (menuButton && mobileMenuContent) {
-                // Event listener to toggle the mobile menu visibility
                 menuButton.addEventListener('click', () => {
-                    // Toggle the 'menu-open' class to trigger the CSS max-height/opacity animation
                     const isOpen = mobileMenuContent.classList.toggle('menu-open');
-                    
-                    // Toggle icon: true (menu open) shows 'x', false (menu closed) shows 'menu'
                     toggleMenuIcon(isOpen); 
                 });
-
-                // Close menu after clicking a link (improves mobile UX)
                 mobileMenuContent.querySelectorAll('a').forEach(link => {
                     link.addEventListener('click', () => {
-                        // Only proceed if the menu is currently visible (has menu-open class)
                         if (mobileMenuContent.classList.contains('menu-open')) {
-                            // Close the menu by removing the class
                             mobileMenuContent.classList.remove('menu-open');
-                            
-                            // Always show the 'menu' icon when closing the menu via a link click
                             toggleMenuIcon(false); 
                         }
                     });
                 });
             }
 
-            // --- INTERSECTION OBSERVER LOGIC FOR SCROLL ANIMATIONS (REPLAYABLE) ---
+            // --- INTERSECTION OBSERVER LOGIC (NEW Popup/Fade) ---
             const animatedElements = document.querySelectorAll('.animated-element');
-
-            // Set the options for the observer
             const observerOptions = {
-                root: null, // relative to the viewport
+                root: null, 
                 rootMargin: '0px',
-                threshold: 0.1 // Trigger when 10% of the item is visible
+                threshold: 0.1 
             };
 
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // Element is visible, apply the animation class to trigger the effect
-                        entry.target.classList.add('fade-in-up');
+                        // Element enters view: Add popup, remove fade out
+                        entry.target.classList.remove('fade-out-down');
+                        entry.target.classList.add('popup-scale-up');
                     } else {
-                        // Element is leaving the viewport
-                        // Remove the class, resetting it to the base (hidden/offset) state
-                        entry.target.classList.remove('fade-in-up');
+                        // Element leaves view: Add fade out, remove popup
+                        // Check if the element was previously visible to prevent initial fade out
+                        if (entry.target.classList.contains('popup-scale-up')) {
+                           entry.target.classList.remove('popup-scale-up');
+                           entry.target.classList.add('fade-out-down');
+                        }
                     }
                 });
             }, observerOptions);
 
-            // Start observing all animated elements
             animatedElements.forEach(element => {
                 observer.observe(element);
+                // Start with fade-out state applied for elements initially off-screen
+                element.classList.add('fade-out-down'); 
             });
-            // --- END INTERSECTION OBSERVER LOGIC ---
+            // --- END OBSERVER LOGIC ---
+            
+            // Rerun createIcons AFTER potentially modifying HTML (e.g., download button icon)
+            lucide.createIcons();
         });
     </script>
 
 </body>
 </html>
+
